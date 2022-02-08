@@ -79,16 +79,16 @@ class Field{
       switch(arrayPosition){
         case '^':
           console.log('congratulations, you win');
-          process.exit();
+          return process.exit(1);
         case 'O':
-          return console.log("Whoops, you've lost");
-          process.exit();
+          console.log("Whoops, you've lost");
+          return process.exit(1);
         case '░':
           this.field[xAxis].splice(yAxis, 1, '*');
           this.hardModeMovement(xAxis, yAxis);      
       }
     }
-
+    
     hardModeMovement(x,y){
       let xAxis = x;
       let yAxis = y;
