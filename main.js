@@ -64,10 +64,10 @@ class Field{
       switch(arrayPosition){
         case '^':
           console.log('congratulations, you win');
-          process.exit();
+          return process.exit(1);
         case 'O':
           console.log("Whoops, you've lost");
-          process.exit();
+          return process.exit(1);
         case '░':
           this.field[xAxis].splice(yAxis, 1, '*');
           this.Movement(xAxis, yAxis);      
