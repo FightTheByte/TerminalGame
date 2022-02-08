@@ -63,10 +63,11 @@ class Field{
       let arrayPosition = this.field[xAxis][yAxis];
       switch(arrayPosition){
         case '^':
-          return console.log('congratulations, you win');
-          this.runGame();
+          console.log('congratulations, you win');
+          process.exit();
         case 'O':
-          return console.log("Whoops, you've lost");
+          console.log("Whoops, you've lost");
+          process.exit();
         case '░':
           this.field[xAxis].splice(yAxis, 1, '*');
           this.Movement(xAxis, yAxis);      
@@ -77,11 +78,11 @@ class Field{
       let arrayPosition = this.field[xAxis][yAxis];
       switch(arrayPosition){
         case '^':
-          return console.log('congratulations, you win');
-          break;
+          console.log('congratulations, you win');
+          process.exit();
         case 'O':
           return console.log("Whoops, you've lost");
-          break;
+          process.exit();
         case '░':
           this.field[xAxis].splice(yAxis, 1, '*');
           this.hardModeMovement(xAxis, yAxis);      
