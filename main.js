@@ -18,13 +18,13 @@ class Field{
     }
 
     Movement(x,y){
-      this.print();
       let xAxis = x;
       let yAxis = y;
+      this.print();
       const move = prompt('move to where?, options are r,l,u,d (right, left, up, down): ' );
       switch(move){
         case 'r':
-          if(y < this.field[x].length-1 && this.field[x][y+1] != '*'){
+          if(y < this.field[x].length-1 && this.field[x][y+1] != pathCharacter){
             y += 1;
           } else {
             console.log("Can't move right, please choose another direction");
@@ -32,7 +32,7 @@ class Field{
           } 
           break;  
         case 'l':
-          if(y > 0 && this.field[x][y-1] != '*'){
+          if(y > 0 && this.field[x][y-1] != pathCharacter){
             y -= 1;
           } else {
             console.log("Can't move left, please choose another direction");
@@ -40,7 +40,7 @@ class Field{
           }
           break;
         case 'u':
-          if(x > 0 && this.field[x-1][y] != '*'){
+          if(x > 0 && this.field[x-1][y] != pathCharacter){
             x -= 1;
           } else {
             console.log("Can't move  up, please choose another direction");
@@ -62,14 +62,14 @@ class Field{
     resultOfMovement(xAxis,yAxis){
       let arrayPosition = this.field[xAxis][yAxis];
       switch(arrayPosition){
-        case '^':
+        case hat:
           console.log('congratulations, you win');
           return process.exit(1);
-        case 'O':
+        case hole:
           console.log("Whoops, you've lost");
           return process.exit(1);
         case '░':
-          this.field[xAxis].splice(yAxis, 1, '*');
+          this.field[xAxis].splice(yAxis, 1, pathCharacter);
           this.Movement(xAxis, yAxis);      
       }
     }
@@ -77,14 +77,14 @@ class Field{
     hardModeResult(xAxis,yAxis){
       let arrayPosition = this.field[xAxis][yAxis];
       switch(arrayPosition){
-        case '^':
+        case hat:
           console.log('congratulations, you win');
           return process.exit(1);
-        case 'O':
+        case hole:
           console.log("Whoops, you've lost");
           return process.exit(1);
-        case '░':
-          this.field[xAxis].splice(yAxis, 1, '*');
+        case fieldCharacter:
+          this.field[xAxis].splice(yAxis, 1, pathCharacter);
           this.hardModeMovement(xAxis, yAxis);      
       }
     }
@@ -94,9 +94,9 @@ class Field{
       let yAxis = y;
       let randomXAxis = Math.floor(Math.random()*this.field.length);
       let randomYAxis = Math.floor(Math.random()*this.field[0].length);
-      if(this.field[randomXAxis][randomYAxis] != '^' && this.field[randomXAxis][randomYAxis] != '*'){
-        if(this.field[randomXAxis][randomYAxis] != 'O'){
-          this.field[randomXAxis][randomYAxis] = 'O';
+      if(this.field[randomXAxis][randomYAxis] != hat && this.field[randomXAxis][randomYAxis] != pathCharacter){
+        if(this.field[randomXAxis][randomYAxis] != hole){
+          this.field[randomXAxis][randomYAxis] = hole;
         } else {
           this.hardModeMovement(xAxis,yAxis);
         };
@@ -107,7 +107,7 @@ class Field{
       const move = prompt('move to where?, options are r,l,u,d (right, left, up, down): ' );
       switch(move){
         case 'r':
-          if(y < this.field[x].length-1 && this.field[x][y+1] != '*'){
+          if(y < this.field[x].length-1 && this.field[x][y+1] != pathCharacter){
             y += 1;
           } else {
             console.log("Can't move right, please choose another direction");
@@ -115,7 +115,7 @@ class Field{
           } 
           break;  
         case 'l':
-          if(y > 0 && this.field[x][y-1] != '*'){
+          if(y > 0 && this.field[x][y-1] != pathCharacter){
             y -= 1;
           } else {
             console.log("Can't move left, please choose another direction");
@@ -123,7 +123,7 @@ class Field{
           }
           break;
         case 'u':
-          if(x > 0 && this.field[x-1][y] != '*'){
+          if(x > 0 && this.field[x-1][y] != pathCharacter){
             x -= 1;
           } else {
             console.log("Can't move  up, please choose another direction");
@@ -131,7 +131,7 @@ class Field{
           }
           break;
         case 'd':
-          if(x < this.field.length-1 && this.field[x+1][y] != '*'){
+          if(x < this.field.length-1 && this.field[x+1][y] != pathCharacter){
             x += 1;
           } else {
             console.log("Can't move down, please choose another direction");
@@ -145,7 +145,7 @@ class Field{
     runGame(){
       let xAxis=Math.floor(Math.random()*this.field.length);
       let yAxis=Math.floor(Math.random()*this.field[0].length);
-      if(this.field[xAxis][yAxis] != 'O' && this.field[xAxis][yAxis] != '^'){
+      if(this.field[xAxis][yAxis] != hole && this.field[xAxis][yAxis] != hat){
       this.resultOfMovement(xAxis,yAxis)
       } else {
         this.runGame();
@@ -155,7 +155,7 @@ class Field{
     hardMode(){
       let xAxis=Math.floor(Math.random()*this.field.length);
       let yAxis=Math.floor(Math.random()*this.field[0].length);
-      if(this.field[xAxis][yAxis] != 'O' && this.field[xAxis][yAxis] != '^'){
+      if(this.field[xAxis][yAxis] != hole && this.field[xAxis][yAxis] != hat){
       this.hardModeResult(xAxis,yAxis);
       } else {
         this.hardMode();
@@ -164,7 +164,7 @@ class Field{
 
     static generateField(height, length){
       const field = [];
-      const randomiserArray = ['O','░'];
+      const randomiserArray = [hole,fieldCharacter];
       let index = 2;
       let counter = 0;
       for(let i = 0; i < length; i++){
@@ -177,20 +177,20 @@ class Field{
             let fieldItem = randomiserArray[randomNumber]
             
             if(counter === 0){
-              field[i][j] = '░';
+              field[i][j] = fieldCharacter;
               counter ++;
             } else if(j === height-1 && i === length-1){
-              field[i][j] = '^';
+              field[i][j] = hat;
             } else if(i===0){
               field[i][j] = fieldItem;
             } else if(i===0 && j===1){
-              field[i][j] = '░';
-            } else if(i > 0 && field[i-1][j+1] === 'O'){
-              field[i][j] = '░';
-            } else if(i > 0 && field[i-1][j-1] === 'O'){
-              field[i][j] = '░';
-            } else if(field[i][j-2] && field[i][j-1] === 'O'){
-              field[i][j] = '░';
+              field[i][j] = fieldCharacter;
+            } else if(i > 0 && field[i-1][j+1] === hole){
+              field[i][j] = fieldCharacter;
+            } else if(i > 0 && field[i-1][j-1] === hole){
+              field[i][j] = fieldCharacter;
+            } else if(field[i][j-2] && field[i][j-1] === hole){
+              field[i][j] = fieldCharacter;
             } else {
               field[i][j] = fieldItem;
             }
